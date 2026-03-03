@@ -32,7 +32,58 @@
                 <p>陈一诺生日快乐！🎂（还有元宵节快乐）</p>
                 <p>PS:这是个前后端交互项目测试</p>
                 <p>既然来了，不如看看下面有什么好东西</p>
-                <button class="btn-primary" id="btn-enter">去看看</button>
+                <button class="btn-primary" id="btn-enter">查看回忆</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 记忆画卷 (上滑屏幕) -->
+    <div id="memory-screen" class="screen hidden">
+        <div class="memory-scroll-container">
+            <!-- 第一个回忆 -->
+            <div class="memory-page">
+                <div class="memory-content">
+                    <div class="memory-photo" style="background-image: url('assets/images/photo_2.jpg')"></div>
+                    <p class="memory-text">还记得我们初次见面的拘谨吗？</p>
+                    <p class="memory-subtext">你说我像个不能和正常人沟通的理科男，而你低头吃饭的眼神却让我好害羞🤭</p>
+                </div>
+                <div class="scroll-arrow">🔺上滑继续</div>
+            </div>
+            <!-- 第二个回忆 -->
+            <div class="memory-page">
+                <div class="memory-content">
+                    <div class="memory-photo" style="background-image: url('assets/images/photo_6.jpg')"></div>
+                    <p class="memory-text">在学校旁边酒店泡温泉</p>
+                    <p class="memory-subtext">一起泡热水的时光，是我们心里温柔美好的回忆。</p>
+                </div>
+                <div class="scroll-arrow">🔺上滑继续</div>
+            </div>
+            <!-- 第三个回忆 -->
+            <div class="memory-page">
+                <div class="memory-content">
+                    <div class="memory-photo" style="background-image: url('assets/images/photo_1.jpg')"></div>
+                    <p class="memory-text">吃过的酸菜鱼、酸汤火锅</p>
+                    <p class="memory-subtext">以后，还想一起去吃好多好多好吃的美食！</p>
+                </div>
+                <div class="scroll-arrow">🔺上滑继续</div>
+            </div>
+            <!-- 第四个回忆 -->
+            <div class="memory-page">
+                <div class="memory-content">
+                    <div class="memory-photo" style="background-image: url('assets/images/photo_7.jpg')"></div>
+                    <p class="memory-text">未来的满满计划</p>
+                    <p class="memory-subtext">老家的特产已经上供给你，下次一起去从化哦~</p>
+                </div>
+                <div class="scroll-arrow">🔺上滑继续</div>
+            </div>
+            <!-- 最后：进入礼物页 -->
+            <div class="memory-page">
+                <div class="memory-content">
+                    <p class="memory-text" style="font-size: 2rem; margin-bottom: 30px;">过去的点点滴滴...</p>
+                    <p class="memory-subtext" style="margin-bottom: 30px;">全部看完了！接下来给你准备了一份惊喜~</p>
+                    <button class="btn-primary" id="btn-to-gifts"
+                        style="padding: 15px 40px; font-size:1.2rem;">开始挑选生日礼物吧 🎁</button>
+                </div>
             </div>
         </div>
     </div>
@@ -60,10 +111,10 @@
         <div class="letter-modal show"
             style="transform: translate(0, 0) scale(1); position: relative; left: auto; top: auto; width: 90%;">
             <div class="letter-content">
-                <h2>如果没有BUG的话已经收到信号啦 💌</h2>
+                <h2>礼物请求已经收到啦 💌</h2>
                 <p>礼物会慢慢准备好，敬请期待哦~</p>
                 <p style="text-align: center; font-size: 2rem; margin-top: 20px;">❤️</p>
-                <button class="btn-secondary" id="btn-gallery" style="margin-top: 20px; width: 100%;">查看我们的专属回忆</button>
+                <button class="btn-secondary" id="btn-gallery" style="margin-top: 20px; width: 100%;">查看我们的CG画廊</button>
             </div>
         </div>
     </div>
@@ -71,14 +122,28 @@
     <!-- 第四部分：照片画廊界面 -->
     <div id="gallery-screen" class="screen hidden" style="justify-content: flex-start; overflow-y: auto;">
         <header style="padding-top:40px; text-align:center; width: 100%;">
-            <h1>专属回忆 🎞️</h1>
-            <p style="color:var(--secondary-color);">那些闪闪发光的瞬间</p>
+            <h1>Gallery 🎞️</h1>
+            <p style="color:var(--secondary-color);">已解锁CG~（还有很多很多在脑子里没放上来！）</p>
         </header>
         <div class="gallery-container" id="gallery-container">
             <!-- Photos will be dynamically added here -->
         </div>
+
+        <!-- 一封信/留言区 -->
+        <div class="message-section"
+            style="width: 85%; max-width: 400px; margin: 40px auto; background: rgba(26, 16, 22, 0.8); border: 1px solid #3a2230; border-radius: 12px; padding: 25px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.8);">
+            <h3 style="color: var(--secondary-color); margin-bottom: 15px;">再次送上生日祝福！！！有什么想对我说的话吗</h3>
+            <textarea id="message-input" placeholder="写下你的心里话..."
+                style="width: 100%; height: 120px; background: rgba(255, 255, 255, 0.05); border: 1px solid #3a2230; border-radius: 8px; padding: 12px; color: white; font-family: 'Roboto', sans-serif; resize: none; margin-bottom: 20px; outline: none;"></textarea>
+            <button class="btn-primary" id="btn-send-message" style="margin-top: 0; width: 100%;">一键发送 💌</button>
+        </div>
+
+        <p
+            style="text-align: center; color: var(--secondary-color); font-size: 1.1rem; margin-bottom: 20px; font-style: italic;">
+            真的会爱你到永远哦（哭）</p>
+
         <button class="btn-primary" id="btn-back-to-home"
-            style="width: auto; padding: 12px 40px; margin: 30px auto; display: block; flex-shrink: 0;">回到首页</button>
+            style="width: auto; padding: 12px 40px; margin: 0px auto 40px auto; display: block; flex-shrink: 0;">再看一遍</button>
     </div>
 
     <!-- 弹窗：自定义礼物输入 -->

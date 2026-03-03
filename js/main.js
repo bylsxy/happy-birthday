@@ -2,6 +2,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Elements ---
     const bgWall = document.getElementById('bg-wall');
     const welcomeScreen = document.getElementById('welcome-screen');
+    const memoryScreen = document.getElementById('memory-screen');
+    const memoryContainer = document.querySelector('.memory-scroll-container');
+    const btnToGifts = document.getElementById('btn-to-gifts');
     const mainScreen = document.getElementById('main-screen');
     const envelope = document.getElementById('envelope');
     const letter = document.getElementById('letter');
@@ -25,6 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const galleryScreen = document.getElementById('gallery-screen');
     const galleryContainer = document.getElementById('gallery-container');
+    const messageInput = document.getElementById('message-input');
+    const btnSendMessage = document.getElementById('btn-send-message');
     const btnBackToHome = document.getElementById('btn-back-to-home');
 
     const toast = document.getElementById('toast');
@@ -54,7 +59,13 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'gift_12', name: '山姆各类零食饮料水', img: 'sam.jpg' },
         { id: 'gift_13', name: '(高价值) 白色恋人、金沙巧克力', img: 'choco.jpg' },
         { id: 'gift_14', name: '好吃的饭（元宵汤圆）', img: 'food.jpg' },
-        { id: 'gift_15', name: '墨镜（你好像已经买辣）', img: 'sunglasses.jpg' }
+        { id: 'gift_15', name: '墨镜（你好像已经买辣）', img: 'sunglasses.jpg' },
+        { id: 'gift_16', name: '一辆布加迪威龙 (做梦版)', img: 'bujiadiweilong.jpg' },
+        { id: 'gift_17', name: '海景大别墅一栋 (附首付与房贷)', img: 'haijingdabieshu.jpg' },
+        { id: 'gift_18', name: '无论如何一直在一起特权 (不可退换)', img: '在一起.jpg' },
+        { id: 'gift_19', name: '专属无条件使唤男友券', img: 'shihuan.jpg' },
+        { id: 'gift_20', name: '画大饼专属黑卡 (余额无限)', img: 'heika.jpg' },
+        { id: 'gift_21', name: '徒手摘星星服务', img: 'zhaixingxing.jpg' }
     ];
 
     // --- Initialization ---
@@ -127,11 +138,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Enter Main Screen
+    // Enter Memory Screen
     btnEnter.addEventListener('click', () => {
         letter.classList.remove('show');
         welcomeScreen.classList.remove('active');
         welcomeScreen.classList.add('hidden');
+
+        setTimeout(() => {
+            memoryScreen.classList.remove('hidden');
+            memoryScreen.classList.add('active');
+        }, 800);
+    });
+
+    // Enter Main Screen (Gifts)
+    btnToGifts.addEventListener('click', () => {
+        memoryScreen.classList.remove('active');
+        memoryScreen.classList.add('hidden');
 
         // Launch Confetti
         fireConfetti();
@@ -158,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btnSubmitConfirm.addEventListener('click', () => {
         sendEmailJS(selectedGift);
         confirmModal.classList.add('hidden');
-        showToast(); // NO MORE CONFETTI HERE
+        showToastMsg("礼物需求已经发至1832652154@qq.com！"); // NO MORE CONFETTI HERE
     });
 
     // Open Custom Modal
@@ -178,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (val) {
             sendEmailJS(`[自选礼物]: ${val}`);
             customModal.classList.add('hidden');
-            showToast();
+            showToastMsg("礼物需求已经发至1832652154@qq.com！");
         } else {
             alert('请先输入想要的礼物哦~');
             customInput.focus();
@@ -212,9 +234,44 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 800);
     });
 
+    // Send Message from Gallery
+    btnSendMessage.addEventListener('click', () => {
+        const val = messageInput.value.trim();
+        if (val) {
+            btnSendMessage.textContent = "发送中...";
+            btnSendMessage.disabled = true;
+
+            const templateParams = {
+                title: "收到了一段想说的话！",
+                name: "专属回忆回响",
+                message: val,
+                time: new Date().toLocaleString()
+            };
+
+            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+                .then(function (response) {
+                    btnSendMessage.textContent = "已发送成功 💌";
+                    showToastMsg("信件已成功发送！");
+                }, function (error) {
+                    btnSendMessage.textContent = "一键发送邮件 💌";
+                    btnSendMessage.disabled = false;
+                    alert("发送失败，请稍后再试。");
+                    console.error('FAILED...', error);
+                });
+        } else {
+            alert('请先写下想说的话哦~');
+            messageInput.focus();
+        }
+    });
+
     // Back to home from gallery (Go to letter)
     btnBackToHome.addEventListener('click', () => {
         window.scrollTo(0, 0);
+        if (memoryContainer) memoryContainer.scrollTop = 0; // reset scroll
+        btnSendMessage.textContent = "一键发送邮件 💌";
+        btnSendMessage.disabled = false;
+        messageInput.value = ""; // clear message
+
         galleryScreen.classList.remove('active');
         galleryScreen.classList.add('hidden');
 
@@ -256,7 +313,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }());
     }
 
-    function showToast() {
+    function showToastMsg(msg) {
+        toast.textContent = msg;
         toast.classList.remove('hidden');
         setTimeout(() => {
             toast.classList.add('hidden');
@@ -265,9 +323,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Send Data silently via EmailJS
     function sendEmailJS(giftValue) {
-        // Prepare template parameters matching your template {{gift_name}} and {{time}}
+        // Prepare template parameters matching the EmailJS template: {{title}}, {{name}}, {{time}}, {{message}}
         const templateParams = {
-            gift_name: giftValue,
+            title: "收到了新的生日礼物选择！",
+            name: "生日愿望小助手",
+            message: `选中的礼物是: ${giftValue}`,
             time: new Date().toLocaleString()
         };
 
