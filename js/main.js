@@ -32,9 +32,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- State ---
     let selectedGift = "";
 
-    // PLEASE REPLACE THIS WITH YOUR ACTUAL FORMSPREE ENDPOINT URL
-    // Format: https://formspree.io/f/YOUR_FORM_ID
-    const FORMSPREE_ENDPOINT = "https://formspree.io/f/mldgywlp"; // placeholder, user will need to create one
+    // Initialize EmailJS with your Public Key
+    emailjs.init("8FpKE1LjIxhbjC_5O");
+
+    const EMAILJS_SERVICE_ID = "service_y06z3l6";
+    const EMAILJS_TEMPLATE_ID = "template_evme7o9";
 
     // --- Gift Data ---
     const gifts = [
@@ -154,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Submit Gift (The "Bug" allows infinite submits)
     btnSubmitConfirm.addEventListener('click', () => {
-        sendDataToFormspree(selectedGift);
+        sendEmailJS(selectedGift);
         confirmModal.classList.add('hidden');
         showToast(); // NO MORE CONFETTI HERE
     });
@@ -174,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btnSubmitCustom.addEventListener('click', () => {
         const val = customInput.value.trim();
         if (val) {
-            sendDataToFormspree(`[自选礼物]: ${val}`);
+            sendEmailJS(`[自选礼物]: ${val}`);
             customModal.classList.add('hidden');
             showToast();
         } else {
@@ -261,25 +263,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 3000);
     }
 
-    // Send Data silently via AJAX to Formspree
-    function sendDataToFormspree(giftValue) {
-        // Construct form data
-        const formData = new FormData();
-        formData.append('email', 'chenyinuo@gift.system'); // dummy email
-        formData.append('message', `妹妹（陈一诺）选择了礼物: ${giftValue}\n时间: ${new Date().toLocaleString()}`);
-        formData.append('_subject', `【生日礼物请求】陈一诺选择了新礼物！`);
+    // Send Data silently via EmailJS
+    function sendEmailJS(giftValue) {
+        // Prepare template parameters matching your template {{gift_name}} and {{time}}
+        const templateParams = {
+            gift_name: giftValue,
+            time: new Date().toLocaleString()
+        };
 
-        fetch(FORMSPREE_ENDPOINT, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'Accept': 'application/json'
-            }
-        }).then(response => {
-            console.log("Data sent successfully");
-        }).catch(error => {
-            console.error("Error sending data silently", error);
-            // Even if it errors out, we don't break the user experience (silent)
-        });
+        emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+            .then(function (response) {
+                console.log('SUCCESS!', response.status, response.text);
+            }, function (error) {
+                console.error('FAILED...', error);
+                // Even if it errors out, we don't break the user experience
+            });
     }
 });
