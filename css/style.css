@@ -1,0 +1,568 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Roboto:wght@300;400;500&display=swap');
+
+:root {
+    --bg-color: #0c0812;
+    /* Dark purple/black */
+    --primary-color: #8c1c2a;
+    /* Deep red */
+    --secondary-color: #d1bba4;
+    /* Vintage beige */
+    --text-light: #e0d0c1;
+    --text-dark: #1a1016;
+    --glass-bg: rgba(20, 15, 25, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    --blur: blur(10px);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: 'Playfair Display', serif;
+    background-color: var(--bg-color);
+    color: var(--text-light);
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* Typography elements */
+h1,
+h2,
+h3 {
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+p {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    font-weight: 300;
+}
+
+/* Background Wall with vintage polaroid effect */
+.background-wall {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+    /* Base vintage gradient */
+    background: radial-gradient(circle at center, #2a1b2d 0%, #0c0812 100%);
+}
+
+/* overlay to create film grain filter */
+.background-wall::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.05;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.bg-photo {
+    position: absolute;
+    width: 120px;
+    height: 140px;
+    background-color: #fff;
+    padding: 10px 10px 30px 10px;
+    box-shadow: var(--shadow);
+    border-radius: 2px;
+    opacity: 0.15;
+    filter: sepia(0.6) hue-rotate(-10deg) saturate(0.8) contrast(1.2) brightness(0.8);
+    transition: all 1s ease;
+    animation: float 20s infinite ease-in-out alternate;
+}
+
+.bg-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(20%);
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0) rotate(var(--rot));
+    }
+
+    100% {
+        transform: translateY(-30px) rotate(calc(var(--rot) + 5deg));
+    }
+}
+
+/* Screens */
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.95);
+    z-index: -1;
+}
+
+.active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1);
+    z-index: 10;
+}
+
+/* ---------------- Welcome Screen (Envelope) ---------------- */
+#welcome-screen {
+    background: transparent;
+}
+
+.envelope-container {
+    cursor: pointer;
+    text-align: center;
+    animation: pulse 2s infinite ease-in-out;
+}
+
+.envelope {
+    position: relative;
+    width: 200px;
+    height: 130px;
+    background: var(--primary-color);
+    margin: 0 auto 20px auto;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    transform-style: preserve-3d;
+    transition: transform 0.5s;
+}
+
+.flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 100px solid transparent;
+    border-right: 100px solid transparent;
+    border-top: 70px solid #a82e3e;
+    transform-origin: top;
+    transition: transform 0.6s 0.2s, z-index 0s 0.2s;
+    z-index: 2;
+}
+
+.envelope-container.open .flap {
+    transform: rotateX(180deg);
+    z-index: 0;
+}
+
+.body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 100px solid #73121f;
+    border-right: 100px solid #73121f;
+    border-bottom: 65px solid #5a0c16;
+    z-index: 1;
+}
+
+.heart {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 30px;
+    z-index: 3;
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.envelope-container.open .heart {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(2);
+}
+
+.hint-text {
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--secondary-color);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* Letter Modal */
+.letter-modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -100%) scale(0.5);
+    width: 85%;
+    max-width: 400px;
+    background: #fdf5e6;
+    /* vintage paper */
+    color: var(--text-dark);
+    padding: 30px 20px;
+    border-radius: 5px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 5;
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1h2v2H1V1zm4 0h2v2H5V1zm4 0h2v2H9V1zm4 0h2v2h-2V1z' fill='%23e0cca6' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E");
+}
+
+.letter-modal.show {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.letter-content h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+.letter-content p {
+    margin-bottom: 15px;
+    font-size: 1rem;
+    color: #4a3b32;
+    text-align: left;
+}
+
+/* ---------------- Main Screen (Gifts) ---------------- */
+#main-screen {
+    justify-content: flex-start;
+    padding: 40px 0;
+    overflow-y: auto;
+}
+
+#main-screen header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 0 20px;
+}
+
+#main-screen h1 {
+    font-size: 2.5rem;
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+    text-shadow: 0 0 15px rgba(209, 187, 164, 0.5);
+}
+
+.gift-showcase {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 0 20px;
+    width: 100%;
+    max-width: 800px;
+}
+
+.gift-card {
+    width: 45%;
+    max-width: 160px;
+    background: var(--glass-bg);
+    backdrop-filter: var(--blur);
+    -webkit-backdrop-filter: var(--blur);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+}
+
+.gift-card:active {
+    transform: scale(0.95);
+}
+
+.gift-img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background-color: #2a1b2d;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+/* Fallback placeholder style if no image */
+.gift-img::before {
+    content: '?';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3rem;
+    color: rgba(255, 255, 255, 0.1);
+    font-family: 'Playfair Display', serif;
+}
+
+.gift-info {
+    padding: 12px 8px;
+    text-align: center;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gift-name {
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--text-light);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.custom-gift-section {
+    width: 100%;
+    text-align: center;
+    margin-top: 40px;
+    padding: 0 20px;
+    padding-bottom: 60px;
+    /* buffer for scrolling */
+}
+
+/* ---------------- Modals & UI Elements ---------------- */
+
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(140, 28, 42, 0.4);
+    width: 100%;
+    margin-top: 15px;
+}
+
+.btn-primary:active {
+    transform: scale(0.98);
+    background: #6a131e;
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--secondary-color);
+    border: 1px solid var(--secondary-color);
+    padding: 12px 24px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9rem;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-secondary:active {
+    background: rgba(209, 187, 164, 0.1);
+}
+
+.btn-cancel {
+    background: transparent;
+    color: #999;
+    border: none;
+    padding: 12px;
+    flex-grow: 1;
+    font-family: 'Roboto', sans-serif;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    transition: opacity 0.3s;
+}
+
+.modal {
+    background: #1a1016;
+    border: 1px solid #3a2230;
+    border-radius: 12px;
+    padding: 25px;
+    width: 85%;
+    max-width: 350px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+    transform: translateY(0);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-overlay.hidden .modal {
+    transform: translateY(20px);
+}
+
+.modal h3 {
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+.modal p {
+    color: #ccc;
+    margin-bottom: 25px;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.modal textarea {
+    width: 100%;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid #3a2230;
+    border-radius: 8px;
+    padding: 12px;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    resize: none;
+    margin-bottom: 20px;
+}
+
+.modal textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.modal-actions button {
+    margin-top: 0;
+    flex: 1;
+}
+
+.toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(46, 204, 113, 0.9);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9rem;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: opacity 0.3s, bottom 0.3s;
+}
+
+.toast.hidden {
+    bottom: 20px;
+}
+
+/* ---------------- Gallery Screen ---------------- */
+.gallery-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    padding: 20px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.gallery-photo {
+    width: 85%;
+    max-width: 400px;
+    background-color: #fdfdfd;
+    padding: 12px 12px 40px 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+    border-radius: 2px;
+    position: relative;
+    /* subtle random rotation applied via inline style var(--rand-rot) */
+    transform: rotate(calc(var(--rand-rot) * 1deg));
+    transition: transform 0.3s ease;
+}
+
+.gallery-photo:nth-child(even) {
+    --rand-rot: 3;
+}
+
+.gallery-photo:nth-child(odd) {
+    --rand-rot: -3;
+}
+
+.gallery-photo:active {
+    transform: scale(0.98);
+}
+
+.gallery-photo img {
+    width: 100%;
+    display: block;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    filter: sepia(0.2) contrast(1.1) brightness(0.9);
+}
+
+/* media queries */
+@media (max-width: 360px) {
+    .gift-card {
+        width: 100%;
+        max-width: 100%;
+        flex-direction: row;
+        height: 100px;
+    }
+
+    .gift-img {
+        width: 100px;
+        aspect-ratio: auto;
+        height: 100%;
+    }
+
+    .gift-info {
+        text-align: left;
+        justify-content: flex-start;
+        padding-left: 15px;
+    }
+}
