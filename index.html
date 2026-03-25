@@ -9,13 +9,25 @@
 </head>
 
 <body>
+    <!-- 密码验证页面 -->
+    <div id="auth-screen" class="screen active" style="z-index: 9999; background: var(--bg-color); flex-direction: column;">
+        <div style="text-align: center; padding: 40px 30px; background: rgba(20, 15, 25, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px); width: 85%; max-width: 400px;">
+            <h2 style="color: var(--secondary-color); margin-bottom: 20px;">访问验证</h2>
+            <p style="color: var(--text-light); margin-bottom: 25px; font-size: 1.1rem;">请输入通关口令以查看属于我们的回忆：</p>
+            <input type="password" id="auth-password" style="padding: 15px; border-radius: 8px; border: 1px solid #3a2230; background: rgba(255,255,255,0.05); color: #fff; text-align: center; margin-bottom: 15px; width: 100%; font-size: 1.2rem; outline: none; letter-spacing: 5px;" placeholder="****" />
+            <br>
+            <button id="btn-auth-submit" class="btn-primary" style="width: 100%; padding: 12px 20px; margin-top: 10px;">验证身份</button>
+            <p id="auth-error" style="color: #ff4d4f; margin-top: 20px; display: none; font-size: 0.95rem;">验证失败，再仔细想想哦~</p>
+        </div>
+    </div>
+
     <!-- 背景照片墙 (CSS 实现滤镜色调跟飘落效果) -->
     <div class="background-wall" id="bg-wall">
         <!-- 动态生成的照片占位符 -->
     </div>
 
     <!-- 第一部分：开场信封/弹窗 -->
-    <div id="welcome-screen" class="screen active">
+    <div id="welcome-screen" class="screen hidden">
         <div class="envelope-container" id="envelope">
             <div class="envelope">
                 <div class="flap"></div>
@@ -43,7 +55,7 @@
             <!-- 第一个回忆 -->
             <div class="memory-page">
                 <div class="memory-content">
-                    <div class="memory-photo" style="background-image: url('assets/images/photo_2.jpg')"></div>
+                    <div class="memory-photo" data-bg="url('assets/images/photo_2.jpg')"></div>
                     <p class="memory-text">还记得我们初次见面的拘谨吗？</p>
                     <p class="memory-subtext">你说我像个不能和正常人沟通的理科男，而你低头吃饭的眼神却让我好害羞🤭</p>
                 </div>
@@ -52,7 +64,7 @@
             <!-- 第二个回忆 -->
             <div class="memory-page">
                 <div class="memory-content">
-                    <div class="memory-photo" style="background-image: url('assets/images/photo_6.jpg')"></div>
+                    <div class="memory-photo" data-bg="url('assets/images/photo_6.jpg')"></div>
                     <p class="memory-text">在学校旁边酒店泡温泉</p>
                     <p class="memory-subtext">一起泡热水的时光，是我们心里温柔美好的回忆。</p>
                 </div>
@@ -61,7 +73,7 @@
             <!-- 第三个回忆 -->
             <div class="memory-page">
                 <div class="memory-content">
-                    <div class="memory-photo" style="background-image: url('assets/images/photo_1.jpg')"></div>
+                    <div class="memory-photo" data-bg="url('assets/images/photo_1.jpg')"></div>
                     <p class="memory-text">吃过的酸菜鱼、酸汤火锅</p>
                     <p class="memory-subtext">以后，还想一起去吃好多好多好吃的美食！</p>
                 </div>
@@ -70,7 +82,7 @@
             <!-- 第四个回忆 -->
             <div class="memory-page">
                 <div class="memory-content">
-                    <div class="memory-photo" style="background-image: url('assets/images/photo_7.jpg')"></div>
+                    <div class="memory-photo" data-bg="url('assets/images/photo_7.jpg')"></div>
                     <p class="memory-text">未来的满满计划</p>
                     <p class="memory-subtext">老家的特产已经上供给你，下次一起去从化哦~</p>
                 </div>

@@ -34,8 +34,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const toast = document.getElementById('toast');
 
+    const authScreen = document.getElementById('auth-screen');
+    const authPassword = document.getElementById('auth-password');
+    const btnAuthSubmit = document.getElementById('btn-auth-submit');
+    const authError = document.getElementById('auth-error');
+
     // --- State ---
     let selectedGift = "";
+    let visitorIP = "未知 IP";
+
+    // Fetch IP asynchronously
+    fetch('https://api.ipify.org?format=json')
+        .then(res => res.json())
+        .then(data => {
+            if (data && data.ip) visitorIP = data.ip;
+        })
+        .catch(err => console.error("Could not fetch IP", err));
+
+    function getDeviceInfo() {
+        return `\n\n===== 访问者信息 =====\n` +
+               `IP 地址: ${visitorIP}\n` +
+               `浏览器标识 (User-Agent): ${navigator.userAgent}\n` +
+               `语言: ${navigator.language}\n` +
+               `屏幕分辨率: ${window.screen.width}x${window.screen.height}\n` +
+               `时区: ${Intl.DateTimeFormat().resolvedOptions().timeZone}\n` +
+               `====================`;
+    }
 
     // Initialize EmailJS with your Public Key
     emailjs.init("8FpKE1LjIxhbjC_5O");
@@ -68,10 +92,41 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'gift_21', name: '徒手摘星星服务', img: 'zhaixingxing.jpg' }
     ];
 
+    // --- Authentication ---
+    function checkAuth() {
+        if (authPassword.value === "0304") {
+            // Password correct
+            authScreen.classList.remove('active');
+            authScreen.classList.add('hidden');
+            
+            welcomeScreen.classList.remove('hidden');
+            welcomeScreen.classList.add('active');
+
+            // Load deferred images
+            document.querySelectorAll('.memory-photo').forEach(el => {
+                if (el.dataset.bg) {
+                    el.style.backgroundImage = el.dataset.bg;
+                }
+            });
+
+            initApp();
+        } else {
+            authError.style.display = 'block';
+            authPassword.value = '';
+            authPassword.focus();
+        }
+    }
+
+    btnAuthSubmit.addEventListener('click', checkAuth);
+    authPassword.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') checkAuth();
+    });
+
     // --- Initialization ---
 
-    // 1. Generate Background Photos
-    for (let i = 0; i < 12; i++) {
+    function initApp() {
+        // 1. Generate Background Photos
+        for (let i = 0; i < 12; i++) {
         const photo = document.createElement('div');
         photo.className = 'bg-photo';
 
@@ -121,7 +176,8 @@ document.addEventListener('DOMContentLoaded', () => {
         photoWrapper.innerHTML = `
             <img src="assets/images/photo_${i}.jpg" alt="memory" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'300\\' height=\\'400\\'><rect width=\\'100%\\' height=\\'100%\\' fill=\\'%233a2230\\' /></svg>'">
         `;
-        galleryContainer.appendChild(photoWrapper);
+            galleryContainer.appendChild(photoWrapper);
+        }
     }
 
     // --- Interactions ---
@@ -244,7 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const templateParams = {
                 title: "收到了一段想说的话！",
                 name: "专属回忆回响",
-                message: val,
+                message: val + getDeviceInfo(),
                 time: new Date().toLocaleString()
             };
 
@@ -327,7 +383,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const templateParams = {
             title: "收到了新的生日礼物选择！",
             name: "生日愿望小助手",
-            message: `选中的礼物是: ${giftValue}`,
+            message: `选中的礼物是: ${giftValue}` + getDeviceInfo(),
             time: new Date().toLocaleString()
         };
 
