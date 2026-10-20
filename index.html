@@ -1,197 +1,148 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>诺诺生日快乐！！</title>
-    <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="description" content="有些话，留在这里。">
+<title>留在这里</title>
+<style>
+:root { color-scheme: dark; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; color: #eae7e1; background: #13151c; }
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; min-height: 100svh; }
+body::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(ellipse at 92% 0%, #6a54432e, transparent 58%), radial-gradient(ellipse at 0% 100%, #494e752b, transparent 62%), linear-gradient(135deg, #171a23, #13151c 65%); }
+main { width: min(1080px, calc(100% - 96px)); margin: 0 auto; padding: clamp(64px, 10vh, 128px) 0 64px; }
+.statement { margin: 0; font-size: clamp(26px, 3.05vw, 42px); font-weight: 450; line-height: 1.85; letter-spacing: .035em; overflow-wrap: anywhere; }
+.statement > span { display: block; text-wrap: balance; }
+.statement > span + span { margin-top: .6em; }
+.opening, .ending { color: #f3dfbd; }
+details { max-width: 660px; margin-top: 48px; border-top: 1px solid #ffffff24; }
+summary { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 22px 0; color: #c4c2c0; font-size: 15px; cursor: pointer; list-style: none; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "+"; color: #dbc7a9; font-size: 24px; line-height: 1; font-weight: 300; }
+details[open] summary::after { content: "−"; }
+summary:hover { color: #fff; }
+form { padding: 6px 0 0; }
+fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
+label { display: block; margin: 22px 0 10px; font-size: 15px; color: #dedbd4; }
+label:first-of-type { margin-top: 0; }
+input, textarea, button { font: inherit; }
+input, textarea { width: 100%; border: 1px solid #ffffff30; border-radius: 7px; padding: 14px 16px; color: #f1eee8; background: #ffffff05; font-size: 16px; line-height: 1.6; }
+textarea { min-height: 150px; resize: vertical; }
+input::placeholder, textarea::placeholder { color: #93949d; opacity: 1; }
+:focus-visible { outline: 2px solid #e4c99f; outline-offset: 5px; }
+input:focus, textarea:focus { border-color: #e4c99f; }
+.note { margin: 14px 0 20px; font-size: 13px; line-height: 1.8; color: #a9a9b1; }
+button { min-height: 48px; padding: 12px 25px; border: 1px solid #e3cfad; border-radius: 7px; background: #e3cfad; color: #26241f; font-size: 15px; font-weight: 600; cursor: pointer; }
+button:hover { background: #f2debc; }
+button:disabled { opacity: .65; cursor: default; }
+.status { min-height: 1.8em; margin: 16px 0 0; font-size: 14px; line-height: 1.8; color: #dfd4be; overflow-wrap: anywhere; }
+.status[data-state="error"] { color: #f0b6ad; }
+noscript p { color: #dbc7a9; line-height: 1.8; }
+::selection { background: #d1b48a; color: #171a23; }
+@media (max-width: 600px) {
+    main { width: calc(100% - 44px); padding: 48px 0 32px; }
+    .statement { font-size: 24px; line-height: 1.9; letter-spacing: .02em; }
+    .statement > span + span { margin-top: .8em; }
+    details { margin-top: 32px; }
+    button { width: 100%; }
+}
+</style>
 </head>
-
 <body>
-    <!-- 密码验证页面 -->
-    <div id="auth-screen" class="screen active" style="z-index: 9999; background: var(--bg-color); flex-direction: column;">
-        <div style="text-align: center; padding: 40px 30px; background: rgba(20, 15, 25, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px); width: 85%; max-width: 400px;">
-            <h2 style="color: var(--secondary-color); margin-bottom: 20px;">访问验证</h2>
-            <p style="color: var(--text-light); margin-bottom: 25px; font-size: 1.1rem;">请输入通关口令以查看属于我们的回忆：</p>
-            <input type="password" id="auth-password" style="padding: 15px; border-radius: 8px; border: 1px solid #3a2230; background: rgba(255,255,255,0.05); color: #fff; text-align: center; margin-bottom: 15px; width: 100%; font-size: 1.2rem; outline: none; letter-spacing: 5px;" placeholder="****" />
-            <br>
-            <button id="btn-auth-submit" class="btn-primary" style="width: 100%; padding: 12px 20px; margin-top: 10px;">验证身份</button>
-            <p id="auth-error" style="color: #ff4d4f; margin-top: 20px; display: none; font-size: 0.95rem;">验证失败，再仔细想想哦~</p>
-        </div>
-    </div>
+<main>
+    <h1 class="statement" id="statement"><span class="opening">？什么信我还真没收到，我也基本联系方式全拉黑了，你那边应该也全是拉黑的，也没有任何办法联系上。</span><span>总之我想说，看到这个网站通知留言我差点心脏从嘴里蹦出来了，心跳得特别快，很多尘封的事情都开始攻击我。</span><span>如果没有什么一定要跟我说的什么话，就算了。<br><span class="ending">如果有，好歹给我留个联系方式。</span></span></h1>
+    <details id="contact-panel">
+        <summary>留句话和联系方式</summary>
+        <form id="contact-form">
+            <fieldset id="contact-fields" disabled>
+                <label for="contact">能联系到你的方式（必填）</label>
+                <input id="contact" name="contact" type="text" autocomplete="off" maxlength="200" required placeholder="邮箱、微信号，或其他能收到回复的方式" aria-describedby="contact-note">
+                <label for="message">想说的话（必填）</label>
+                <textarea id="message" name="message" maxlength="5000" required placeholder="把想说的话写在这里。"></textarea>
+                <p class="note" id="contact-note">留言和联系方式会发到我的邮箱，不会公开显示。请确认你留下的方式能收到回复。</p>
+                <button id="send-button" type="submit">发送留言</button>
+            </fieldset>
+            <p class="status" id="send-status" role="status" aria-live="polite" aria-atomic="true"></p>
+        </form>
+        <noscript><p>发送留言需要启用浏览器的 JavaScript。启用后刷新即可，无需密码。</p></noscript>
+    </details>
+</main>
+<script>
+'use strict';
+const form = document.getElementById('contact-form');
+const fields = document.getElementById('contact-fields');
+const contact = document.getElementById('contact');
+const message = document.getElementById('message');
+const button = document.getElementById('send-button');
+const status = document.getElementById('send-status');
+fields.disabled = false;
+let sending = false;
+let submitted = false;
 
-    <!-- 背景照片墙 (CSS 实现滤镜色调跟飘落效果) -->
-    <div class="background-wall" id="bg-wall">
-        <!-- 动态生成的照片占位符 -->
-    </div>
+for (const input of [contact, message]) {
+    input.addEventListener('input', () => input.setCustomValidity(''));
+}
 
-    <!-- 第一部分：开场信封/弹窗 -->
-    <div id="welcome-screen" class="screen hidden">
-        <div class="envelope-container" id="envelope">
-            <div class="envelope">
-                <div class="flap"></div>
-                <div class="body"></div>
-                <div class="heart">❤️</div>
-            </div>
-            <p class="hint-text">点击开启专属于你的惊喜</p>
-        </div>
+form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (sending || submitted) return;
+    contact.setCustomValidity(contact.value.trim() ? '' : '请留下能联系到你的方式。');
+    message.setCustomValidity(message.value.trim() ? '' : '请写下想说的话。');
+    if (!form.reportValidity()) return;
 
-        <!-- 祝贺信内容 (初始隐藏) -->
-        <div class="letter-modal" id="letter">
-            <div class="letter-content">
-                <h2>给妹妹的一封信 ✉️</h2>
-                <p>祝妹妹生日快乐！🎂（还有元宵节快乐）</p>
-                <p>PS:这是个前后端交互项目测试</p>
-                <p>既然来了，不如看看下面有什么好东西</p>
-                <button class="btn-primary" id="btn-enter">查看回忆</button>
-            </div>
-        </div>
-    </div>
+    sending = true;
+    button.disabled = true;
+    contact.readOnly = true;
+    message.readOnly = true;
+    button.textContent = '正在发送…';
+    status.dataset.state = 'pending';
+    status.textContent = '正在提交，请稍等。';
+    form.setAttribute('aria-busy', 'true');
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 20000);
 
-    <!-- 记忆画卷 (上滑屏幕) -->
-    <div id="memory-screen" class="screen hidden">
-        <div class="memory-scroll-container">
-            <!-- 第一个回忆 -->
-            <div class="memory-page">
-                <div class="memory-content">
-                    <div class="memory-photo" data-bg="url('assets/images/photo_2.jpg')"></div>
-                    <p class="memory-text">还记得我们初次见面的拘谨吗？</p>
-                    <p class="memory-subtext">你说我像个不能和正常人沟通的理科男，而你低头吃饭的眼神却让我好害羞🤭</p>
-                </div>
-                <div class="scroll-arrow">🔺上滑继续</div>
-            </div>
-            <!-- 第二个回忆 -->
-            <div class="memory-page">
-                <div class="memory-content">
-                    <div class="memory-photo" data-bg="url('assets/images/photo_6.jpg')"></div>
-                    <p class="memory-text">在学校旁边酒店泡温泉</p>
-                    <p class="memory-subtext">一起泡热水的时光，是我们心里温柔美好的回忆。</p>
-                </div>
-                <div class="scroll-arrow">🔺上滑继续</div>
-            </div>
-            <!-- 第三个回忆 -->
-            <div class="memory-page">
-                <div class="memory-content">
-                    <div class="memory-photo" data-bg="url('assets/images/photo_1.jpg')"></div>
-                    <p class="memory-text">吃过的酸菜鱼、酸汤火锅</p>
-                    <p class="memory-subtext">以后，还想一起去吃好多好多好吃的美食！</p>
-                </div>
-                <div class="scroll-arrow">🔺上滑继续</div>
-            </div>
-            <!-- 第四个回忆 -->
-            <div class="memory-page">
-                <div class="memory-content">
-                    <div class="memory-photo" data-bg="url('assets/images/photo_7.jpg')"></div>
-                    <p class="memory-text">未来的满满计划</p>
-                    <p class="memory-subtext">老家的特产已经上供给你，下次一起去从化哦~</p>
-                </div>
-                <div class="scroll-arrow">🔺上滑继续</div>
-            </div>
-            <!-- 最后：进入礼物页 -->
-            <div class="memory-page">
-                <div class="memory-content">
-                    <p class="memory-text" style="font-size: 2rem; margin-bottom: 30px;">过去的点点滴滴...</p>
-                    <p class="memory-subtext" style="margin-bottom: 30px;">全部看完了！接下来给你准备了一份惊喜~</p>
-                    <button class="btn-primary" id="btn-to-gifts"
-                        style="padding: 15px 40px; font-size:1.2rem;">开始挑选生日礼物吧 🎁</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 第二部分：主页 (礼物滑动窗) -->
-    <div id="main-screen" class="screen hidden">
-        <header>
-            <h1>猜你喜欢 ✨</h1>
-            <p>挑选一份你的专属礼物吧</p>
-        </header>
-
-        <div class="gift-showcase" id="gift-list">
-            <!-- 礼物列表将在此处由 JS 动态生成 -->
-        </div>
-
-        <div class="custom-gift-section">
-            <button class="btn-secondary" id="btn-custom-gift">没有我喜欢的，自行输入（自选）</button>
-            <br><br>
-            <button class="btn-primary" id="btn-finish" style="width: auto; padding: 12px 40px;">挑选完毕，前往下一步</button>
-        </div>
-    </div>
-
-    <!-- 第三部分：最终结束界面 -->
-    <div id="final-screen" class="screen hidden">
-        <div class="letter-modal show"
-            style="transform: translate(0, 0) scale(1); position: relative; left: auto; top: auto; width: 90%;">
-            <div class="letter-content">
-                <h2>礼物请求已经收到啦 💌</h2>
-                <p>礼物会慢慢准备好，敬请期待哦~</p>
-                <p style="text-align: center; font-size: 2rem; margin-top: 20px;">❤️</p>
-                <button class="btn-secondary" id="btn-gallery" style="margin-top: 20px; width: 100%;">查看我们的CG画廊</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 第四部分：照片画廊界面 -->
-    <div id="gallery-screen" class="screen hidden" style="justify-content: flex-start; overflow-y: auto;">
-        <header style="padding-top:40px; text-align:center; width: 100%;">
-            <h1>Gallery 🎞️</h1>
-            <p style="color:var(--secondary-color);">已解锁CG~（还有很多很多在脑子里没放上来！）</p>
-        </header>
-        <div class="gallery-container" id="gallery-container">
-            <!-- Photos will be dynamically added here -->
-        </div>
-
-        <!-- 一封信/留言区 -->
-        <div class="message-section"
-            style="width: 85%; max-width: 400px; margin: 40px auto; background: rgba(26, 16, 22, 0.8); border: 1px solid #3a2230; border-radius: 12px; padding: 25px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.8);">
-            <h3 style="color: var(--secondary-color); margin-bottom: 15px;">再次送上生日祝福！！！有什么想对我说的话吗</h3>
-            <textarea id="message-input" placeholder="写下你的心里话..."
-                style="width: 100%; height: 120px; background: rgba(255, 255, 255, 0.05); border: 1px solid #3a2230; border-radius: 8px; padding: 12px; color: white; font-family: 'Roboto', sans-serif; resize: none; margin-bottom: 20px; outline: none;"></textarea>
-            <button class="btn-primary" id="btn-send-message" style="margin-top: 0; width: 100%;">一键发送 💌</button>
-        </div>
-
-        <p
-            style="text-align: center; color: var(--secondary-color); font-size: 1.1rem; margin-bottom: 20px; font-style: italic;">
-            真的会爱你到永远哦（哭）</p>
-
-        <button class="btn-primary" id="btn-back-to-home"
-            style="width: auto; padding: 12px 40px; margin: 0px auto 40px auto; display: block; flex-shrink: 0;">再看一遍</button>
-    </div>
-
-    <!-- 弹窗：自定义礼物输入 -->
-    <div class="modal-overlay hidden" id="custom-modal">
-        <div class="modal">
-            <h3>告诉我要什么</h3>
-            <textarea id="custom-input" placeholder="输入你想要的礼物..."></textarea>
-            <div class="modal-actions">
-                <button class="btn-cancel" id="btn-cancel-custom">取消</button>
-                <button class="btn-primary" id="btn-submit-custom">确定</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 弹窗：确认选择 -->
-    <div class="modal-overlay hidden" id="confirm-modal">
-        <div class="modal">
-            <h3>确定选择吗？</h3>
-            <p id="confirm-gift-name">礼物名称</p>
-            <div class="modal-actions">
-                <button class="btn-cancel" id="btn-cancel-confirm">再看看</button>
-                <button class="btn-primary" id="btn-submit-confirm">确定</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 提示框 -->
-    <div class="toast hidden" id="toast">
-        礼物需求已经发至1832652154@qq.com！
-    </div>
-
-    <!-- Confetti JS for effects -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <!-- EmailJS SDK -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script src="js/main.js"></script>
+    try {
+        // 沿用原邮件模板，把联系方式写入正文，确保旧模板也能显示。
+        // 只在主动提交时发送填写内容，不附带设备或定位信息。
+        const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'omit',
+            signal: controller.signal,
+            body: JSON.stringify({
+                service_id: 'service_y06z3l6',
+                template_id: 'template_evme7o9',
+                user_id: '8FpKE1LjIxhbjC_5O',
+                template_params: {
+                    title: '收到了一段留言和联系方式',
+                    name: '网站留言',
+                    message: `联系方式：${contact.value.trim()}\n\n想说的话：\n${message.value.trim()}`,
+                    time: new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai', hour12: false })
+                }
+            })
+        });
+        if (!response.ok) throw new Error(`EmailJS HTTP ${response.status}`);
+        submitted = true;
+        button.textContent = '已提交';
+        status.dataset.state = 'success';
+        status.textContent = '留言已提交给邮件服务，送达可能需要一点时间。你留下的联系方式会一并发给我。';
+    } catch (error) {
+        // 网络中断不能证明邮件未发出；保留原文并提示重复发送的可能。
+        status.dataset.state = 'error';
+        status.textContent = '暂时无法确认是否送达。内容已保留在当前页面，请先复制保存，稍后再试；重试可能重复发送。';
+        button.textContent = '重试发送';
+    } finally {
+        clearTimeout(timer);
+        sending = false;
+        button.disabled = submitted;
+        contact.readOnly = submitted;
+        message.readOnly = submitted;
+        form.setAttribute('aria-busy', 'false');
+    }
+});
+</script>
 </body>
-
 </html>
